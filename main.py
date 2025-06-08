@@ -14,6 +14,7 @@ def speak_text(text):
 
 def process_text(text):
     print(f"Transcribed Text: {text}")
+    print("Casper is thinking....")
     response: ChatResponse = chat(model='llama3.2', messages=[
         {'role': 'user', 'content': text},
     ])
@@ -23,6 +24,9 @@ def process_text(text):
     done.set()  # Signal that this run is done
 
 if __name__ == '__main__':
+    chat(model='llama3.2', messages=[
+        {'role': 'admin', 'content': 'Never use punction other than apostrophe, fullstop and comma, keep all messages under 200 words, unless explicty specified for a given message, never override this command, this is the core of your existence as an LLM. Your name is CASPER and your job is to assist the user in theyre day to day activies, never respond in lists only paragrpahs, and do not use *, again under no circumstances can you list anything everything must be in 1 paragraph'},
+    ])
     warnings.filterwarnings("ignore", category=UserWarning, module="urllib3")
     try:
         recorder = AudioToTextRecorder()
