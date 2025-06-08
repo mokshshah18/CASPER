@@ -2,6 +2,9 @@ from RealtimeSTT import AudioToTextRecorder
 from ollama import chat, ChatResponse
 import os
 import warnings
+import threading
+
+done = threading.Event()
 
 def speak_text(text):
     try:
@@ -17,10 +20,10 @@ def process_text(text):
     reply = response.message.content
     print(f"Ollama Response: {reply}")
     speak_text(reply)
+    done.set()  # Signal that this run is done
 
 if __name__ == '__main__':
     warnings.filterwarnings("ignore", category=UserWarning, module="urllib3")
-    print("Initializing recorder...")
     try:
         recorder = AudioToTextRecorder()
     except Exception as e:
@@ -28,8 +31,9 @@ if __name__ == '__main__':
         exit(1)
 
     while True:
+        done.clear()  # Reset signal
         try:
             recorder.text(process_text)
+            done.wait()  # Wait until `process_text()` finishes
         except Exception as e:
             print(f"Recording error: {e}")
-        #time.sleep(0.5)
