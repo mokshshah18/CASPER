@@ -1,2 +1,1 @@
-Make sure ollama is running locally
-Check if ollama is accible on this endpoint if the llm is not reachable: curl http://localhost:11434/api/generate
+For google cal: https://developers.google.com/workspace/calendar/api/quickstart/python make sure api is enabled
